@@ -29,5 +29,33 @@ namespace WebTest.Controllers
         {
             return await _playerService.GetPlayersAsync();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> UpdatePlayerAsync(int id, EditPlayerDTO editPlayerDTO)
+        {
+            try
+            {
+                await _playerService.EditPlayerAsync(id, editPlayerDTO);
+                return StatusCode(204);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeletePlayerAsync(int id)
+        {
+            try
+            {
+                await _playerService.DeletePlayerAsync(id);
+                return StatusCode(204);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }

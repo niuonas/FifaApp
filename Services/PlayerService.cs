@@ -32,6 +32,7 @@ namespace WebTest.Services
         {
             IEnumerable<PlayerVM> players = await _appContext.Players.Select(p => new PlayerVM
             {
+                Id = p.Id,
                 Name = p.Name,
                 Surname = p.Surname,
                 Nationality = p.Nationality,
@@ -39,6 +40,36 @@ namespace WebTest.Services
             }).ToListAsync();
 
             return players;
+        }
+
+        public async Task EditPlayerAsync(int playerId, EditPlayerDTO editPlayerDTO)
+        {
+            Player playerToBeEdited = await _appContext.Players.FirstOrDefaultAsync(x => x.Id == playerId);
+
+            if (playerToBeEdited != null)
+            {
+                playerToBeEdited.Name = editPlayerDTO.Name;
+                playerToBeEdited.Surname = editPlayerDTO.Surname;
+                playerToBeEdited.Nationality = editPlayerDTO.Nationality;
+                playerToBeEdited.Overall = editPlayerDTO.Overall;
+            }else
+            {
+                throw new ArgumentException("No player exists with this id!");
+            }
+
+            await _appContext.SaveChangesAsync();
+        }
+
+        public async Task DeletePlayerAsync(int playerId)
+        {
+            Player playerToBeDeleted = await _appContext.Players.FirstOrDefaultAsync(x => x.Id == playerId);
+
+            if (playerToBeDeleted != null)
+            {
+                _appContext.Players.Remove(playerToBeDeleted);
+            }
+
+            await _appContext.SaveChangesAsync();
         }
     }
 }

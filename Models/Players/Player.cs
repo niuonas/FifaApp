@@ -12,7 +12,6 @@ namespace WebTest.Models.Players
         public string Surname { get; set; }
         [Required]
         public string Nationality { get; set; }
-        [Required]
-        public string Overall { get; set; }
+        public int Overall { get; set; }
     }
 }

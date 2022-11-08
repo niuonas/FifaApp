@@ -1,9 +1,6 @@
-﻿#nullable disable
-using WebTest;
-
-namespace WebTest.ViewModels.Players
+﻿namespace WebTest.ViewModels.Players
 {
-    public class PlayerCreateDTO
+    public class EditPlayerDTO
     {
         public string Name { get; set; }
         public string Surname { get; set; }
