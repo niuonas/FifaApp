@@ -20,8 +20,16 @@ namespace WebTest.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAsync(PlayerCreateDTO playerCreateDTO)
         {
-            await _playerService.AddPlayerAsync(playerCreateDTO);
-            return StatusCode(204);
+            try
+            {
+                await _playerService.AddPlayerAsync(playerCreateDTO);
+                return StatusCode(204);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500);
+            }           
         }
 
         [HttpGet]
@@ -40,6 +48,7 @@ namespace WebTest.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return StatusCode(500);
             }
         }
@@ -52,8 +61,9 @@ namespace WebTest.Controllers
                 await _playerService.DeletePlayerAsync(id);
                 return StatusCode(204);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return StatusCode(500);
             }
         }

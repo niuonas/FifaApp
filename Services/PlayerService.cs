@@ -68,6 +68,10 @@ namespace WebTest.Services
             {
                 _appContext.Players.Remove(playerToBeDeleted);
             }
+            else
+            {
+                throw new ArgumentException("No player exists with this id!");
+            }
 
             await _appContext.SaveChangesAsync();
         }

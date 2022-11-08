@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WebTest.Context;
 using WebTest.Contracts;
 using WebTest.Services;
@@ -11,6 +12,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FifaAppContext>(options => options.UseSqlServer(configuration.GetConnectionString("FifaAppContext")));
+
+// Logger
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 //Inject services
 builder.Services.AddScoped<IPlayerService, PlayerService>();
