@@ -40,8 +40,9 @@ namespace WebTest.Controllers
                 IEnumerable<PlayerVM> players =  await _playerService.GetPlayersAsync();
                 return players.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return StatusCode(500);
             }
             
