@@ -23,6 +23,8 @@ builder.Logging.AddSerilog(logger);
 
 //Inject services
 builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<ITeamService, TeamService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
