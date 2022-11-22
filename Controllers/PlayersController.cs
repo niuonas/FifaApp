@@ -28,8 +28,8 @@ namespace WebTest.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return StatusCode(500);
-            }           
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet]
@@ -37,15 +37,28 @@ namespace WebTest.Controllers
         {
             try
             {
-                IEnumerable<PlayerVM> players =  await _playerService.GetPlayersAsync();
+                IEnumerable<PlayerVM> players = await _playerService.GetPlayersAsync();
                 return players.ToList();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
-            
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PlayerVM>> GetPlayerVMAsync(int id)
+        {
+            try
+            {
+                return await _playerService.GetPlayerVMAsync(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPatch("{id}")]
@@ -59,7 +72,7 @@ namespace WebTest.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -74,7 +87,7 @@ namespace WebTest.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
     }

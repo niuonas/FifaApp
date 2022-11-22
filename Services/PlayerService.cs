@@ -4,6 +4,7 @@ using WebTest.Contracts;
 using WebTest.Models.Players;
 using WebTest.ViewModels.Players;
 
+#nullable disable
 namespace WebTest.Services
 {
     public class PlayerService : IPlayerService
@@ -42,6 +43,32 @@ namespace WebTest.Services
             return players;
         }
 
+        public async Task<PlayerVM> GetPlayerVMAsync(int id)
+        {
+            return await _appContext.Players.Select(p => new PlayerVM
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Surname = p.Surname,
+                Nationality = p.Nationality,
+                Overall = p.Overall
+            }).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Player> GetPlayerModelAsync(int playerId)
+        {
+            Player player = await _appContext.Players.FirstOrDefaultAsync(x => x.Id == playerId);
+
+            if (player != null)
+            {
+                return player;
+            }
+            else
+            {
+                throw new ArgumentException("No player exists with this id");
+            }
+        }
+
         public async Task<PlayerVM> EditPlayerAsync(int playerId, EditPlayerDTO editPlayerDTO)
         {
             Player playerToBeEdited = await _appContext.Players.FirstOrDefaultAsync(x => x.Id == playerId);
@@ -59,14 +86,7 @@ namespace WebTest.Services
 
             await _appContext.SaveChangesAsync();
 
-            return new PlayerVM
-            {
-                Id = playerId,
-                Name = editPlayerDTO.Name,
-                Nationality = editPlayerDTO.Nationality,
-                Surname = editPlayerDTO.Surname,
-                Overall = editPlayerDTO.Overall
-            };
+            return await GetPlayerVMAsync(playerId);
         }
 
         public async Task DeletePlayerAsync(int playerId)
