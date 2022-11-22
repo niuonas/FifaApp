@@ -42,7 +42,7 @@ namespace WebTest.Services
             return players;
         }
 
-        public async Task EditPlayerAsync(int playerId, EditPlayerDTO editPlayerDTO)
+        public async Task<PlayerVM> EditPlayerAsync(int playerId, EditPlayerDTO editPlayerDTO)
         {
             Player playerToBeEdited = await _appContext.Players.FirstOrDefaultAsync(x => x.Id == playerId);
 
@@ -58,6 +58,15 @@ namespace WebTest.Services
             }
 
             await _appContext.SaveChangesAsync();
+
+            return new PlayerVM
+            {
+                Id = playerId,
+                Name = editPlayerDTO.Name,
+                Nationality = editPlayerDTO.Nationality,
+                Surname = editPlayerDTO.Surname,
+                Overall = editPlayerDTO.Overall
+            };
         }
 
         public async Task DeletePlayerAsync(int playerId)

@@ -6,7 +6,7 @@ namespace WebTest.Contracts
     {
         Task AddPlayerAsync(PlayerCreateDTO playerCreateDTO);
         Task<IEnumerable<PlayerVM>> GetPlayersAsync();
-        Task EditPlayerAsync(int playerId, EditPlayerDTO editPlayerDTO);
+        Task<PlayerVM> EditPlayerAsync(int playerId, EditPlayerDTO editPlayerDTO);
         Task DeletePlayerAsync(int playerId);
     }
 }

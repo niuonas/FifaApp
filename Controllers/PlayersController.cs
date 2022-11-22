@@ -33,18 +33,27 @@ namespace WebTest.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PlayerVM>> GetAsync()
-        {
-            return await _playerService.GetPlayersAsync();
-        }
-
-        [HttpPatch("{id}")]
-        public async Task<ActionResult> UpdatePlayerAsync(int id, EditPlayerDTO editPlayerDTO)
+        public async Task<ActionResult<List<PlayerVM>>> GetAsync()
         {
             try
             {
-                await _playerService.EditPlayerAsync(id, editPlayerDTO);
-                return StatusCode(204);
+                IEnumerable<PlayerVM> players =  await _playerService.GetPlayersAsync();
+                return players.ToList();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<PlayerVM>> UpdatePlayerAsync(int id, EditPlayerDTO editPlayerDTO)
+        {
+            try
+            {
+                PlayerVM player = await _playerService.EditPlayerAsync(id, editPlayerDTO);
+                return player;
             }
             catch (Exception ex)
             {
