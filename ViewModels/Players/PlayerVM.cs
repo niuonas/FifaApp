@@ -8,5 +8,6 @@ namespace WebTest.ViewModels.Players
         public string Surname { get; set; }
         public string Nationality { get; set; }
         public int Overall { get; set; }
+        public string Team { get; set; }
     }
 }
