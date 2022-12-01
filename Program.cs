@@ -5,6 +5,7 @@ using WebTest.Contracts;
 using WebTest.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddControllers();
@@ -12,6 +13,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FifaAppContext>(options => options.UseSqlServer(configuration.GetConnectionString("FifaAppContext")));
+
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+    {
+        policy.WithOrigins(@"http://localhost:4200");
+    });
+});
 
 // Logger
 var logger = new LoggerConfiguration()
@@ -33,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 
