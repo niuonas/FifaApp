@@ -37,7 +37,8 @@ namespace WebTest.Services
                 Name = p.Name,
                 Surname = p.Surname,
                 Nationality = p.Nationality,
-                Overall = p.Overall
+                Overall = p.Overall,
+                Team = p.Team.Name ?? "Free contract"
             }).ToListAsync();
 
             return players;
@@ -51,7 +52,8 @@ namespace WebTest.Services
                 Name = p.Name,
                 Surname = p.Surname,
                 Nationality = p.Nationality,
-                Overall = p.Overall
+                Overall = p.Overall,
+                Team = p.Team.Name ?? "Free Contract"
             }).FirstOrDefaultAsync(x => x.Id == id);
         }
 
