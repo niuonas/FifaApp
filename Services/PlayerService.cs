@@ -15,7 +15,7 @@ namespace WebTest.Services
             _appContext = fifaAppContext;
         }
 
-        public async Task AddPlayerAsync(PlayerCreateDTO playerCreateDTO)
+        public async Task<PlayerVM> AddPlayerAsync(PlayerCreateDTO playerCreateDTO)
         {
             Player player = new Player
             {
@@ -27,6 +27,7 @@ namespace WebTest.Services
 
             _appContext.Add(player);
             await _appContext.SaveChangesAsync();
+            return await GetPlayerVMAsync(player.Id);
         }
 
         public async Task<IEnumerable<PlayerVM>> GetPlayersAsync()
