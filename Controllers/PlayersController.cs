@@ -18,12 +18,11 @@ namespace WebTest.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAsync(PlayerCreateDTO playerCreateDTO)
+        public async Task<ActionResult<PlayerVM>> AddAsync(PlayerCreateDTO playerCreateDTO)
         {
             try
             {
-                await _playerService.AddPlayerAsync(playerCreateDTO);
-                return StatusCode(204);
+                return await _playerService.AddPlayerAsync(playerCreateDTO);
             }
             catch (Exception ex)
             {
