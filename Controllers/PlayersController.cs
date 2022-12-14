@@ -31,6 +31,20 @@ namespace WebTest.Controllers
             }
         }
 
+        [HttpPost("fast")]
+        public async Task<ActionResult<PlayerVM>> AddFastAsync()
+        {
+            try
+            {
+                return await _playerService.FastAddAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<PlayerVM>>> GetAsync()
         {
