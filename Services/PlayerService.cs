@@ -30,6 +30,26 @@ namespace WebTest.Services
             return await GetPlayerVMAsync(player.Id);
         }
 
+        public async Task<PlayerVM> FastAddAsync()
+        {
+            Random random = new Random();
+            string[] names = { "Max", "Arnold", "Luca", "Vinicius", "Cristiano", "Lionel" };
+            string[] surnames = { "Modric", "Becker", "Beckham", "Didier", "Pogba", "Deschamps" };
+            string[] nationalities = { "Romania", "Germany" , "France", "Italy", "Japan", "China", "Argentina", "Brazil"};
+
+            Player player = new Player
+            {
+                Name = names[random.Next(0, names.Length - 1)],
+                Surname = surnames[random.Next(0, surnames.Length - 1)],
+                Nationality = nationalities[random.Next(0, nationalities.Length - 1)],
+                Overall = random.Next(50, 99)
+            };
+
+            _appContext.Add(player);
+            await _appContext.SaveChangesAsync();
+            return await GetPlayerVMAsync(player.Id);
+        }
+
         public async Task<IEnumerable<PlayerVM>> GetPlayersAsync()
         {
             IEnumerable<PlayerVM> players = await _appContext.Players.Select(p => new PlayerVM

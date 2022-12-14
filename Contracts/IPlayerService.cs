@@ -6,6 +6,7 @@ namespace WebTest.Contracts
     public interface IPlayerService
     {
         Task<PlayerVM> AddPlayerAsync(PlayerCreateDTO playerCreateDTO);
+        Task<PlayerVM> FastAddAsync();
         Task<IEnumerable<PlayerVM>> GetPlayersAsync();
         Task<PlayerVM> GetPlayerVMAsync(int id);
         Task<Player> GetPlayerModelAsync(int playerId);
