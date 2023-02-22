@@ -35,7 +35,7 @@ namespace WebTest.Services
             Random random = new Random();
             string[] names = { "Max", "Arnold", "Luca", "Vinicius", "Cristiano", "Lionel" };
             string[] surnames = { "Modric", "Becker", "Beckham", "Didier", "Pogba", "Deschamps" };
-            string[] nationalities = { "Romania", "Germany" , "France", "Italy", "Japan", "China", "Argentina", "Brazil"};
+            string[] nationalities = { "Romania", "Germany", "France", "Italy", "Japan", "China", "Argentina", "Brazil" };
 
             Player player = new Player
             {
@@ -63,6 +63,13 @@ namespace WebTest.Services
             }).ToListAsync();
 
             return players;
+        }
+
+        public async Task<PlayerVM> GetPlayerByNameAsync(string playerName)
+        {
+            int playerId = await _appContext.Players.Where(x => x.Name == playerName).Select(x => x.Id).FirstOrDefaultAsync();
+
+            return await GetPlayerVMAsync(playerId);
         }
 
         public async Task<PlayerVM> GetPlayerVMAsync(int id)
@@ -102,7 +109,8 @@ namespace WebTest.Services
                 playerToBeEdited.Surname = editPlayerDTO.Surname;
                 playerToBeEdited.Nationality = editPlayerDTO.Nationality;
                 playerToBeEdited.Overall = editPlayerDTO.Overall;
-            }else
+            }
+            else
             {
                 throw new ArgumentException("No player exists with this id!");
             }
