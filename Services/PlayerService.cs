@@ -74,7 +74,7 @@ namespace WebTest.Services
 
         public async Task<PlayerVM> GetPlayerVMAsync(int id)
         {
-            return await _appContext.Players.Select(p => new PlayerVM
+            return await _appContext.Players.Where(x => x.Id == id).Select(p => new PlayerVM
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -82,7 +82,7 @@ namespace WebTest.Services
                 Nationality = p.Nationality,
                 Overall = p.Overall,
                 Team = p.Team.Name ?? "Free Contract"
-            }).FirstOrDefaultAsync(x => x.Id == id);
+            }).FirstOrDefaultAsync();
         }
 
         public async Task<Player> GetPlayerModelAsync(int playerId)

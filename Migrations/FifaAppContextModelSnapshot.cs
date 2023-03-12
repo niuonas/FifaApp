@@ -52,7 +52,7 @@ namespace WebTest.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
                 });
 
             modelBuilder.Entity("WebTest.Models.Teams.Team", b =>
@@ -69,7 +69,7 @@ namespace WebTest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("WebTest.Models.Players.Player", b =>
