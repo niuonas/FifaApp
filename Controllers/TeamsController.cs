@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebTest.Contracts;
 using WebTest.Models.Teams;
+using WebTest.ViewModels.Players;
 using WebTest.ViewModels.Teams;
 
 namespace WebTest.Controllers
@@ -60,12 +61,12 @@ namespace WebTest.Controllers
             }
         }
 
-        [HttpPatch("addPlayer/{playerId}/{teamId}")]
-        public async Task<ActionResult<TeamVM>> AddPlayerToTeamAsync(int playerId, int teamId)
+        [HttpPatch("addPlayer/{teamId}")]
+        public async Task<ActionResult<TeamVM>> AddPlayerToTeamAsync(int teamId, PlayerVM playerVM)
         {
             try
             {
-                return await _teamService.AddPlayerToTeamAsync(playerId, teamId);
+                return await _teamService.AddPlayerToTeamAsync(teamId, playerVM);
             }
             catch (Exception ex)
             {
@@ -85,7 +86,6 @@ namespace WebTest.Controllers
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500, ex.Message);
-                throw;
             }
         }
 
@@ -100,7 +100,6 @@ namespace WebTest.Controllers
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500, ex.Message);
-                throw;
             }
         }
 
@@ -116,7 +115,6 @@ namespace WebTest.Controllers
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500, ex.Message);
-                throw;
             }
         }
     }
