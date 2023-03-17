@@ -36,14 +36,19 @@ namespace WebTest.Services
             };
         }
 
-        public async Task<TeamVM> AddPlayerToTeamAsync(int playerId, int teamId)
+        public async Task<TeamVM> AddPlayerToTeamAsync(int teamId, PlayerVM playerVM)
         {
-            Player player = await _playerService.GetPlayerModelAsync(playerId);
             Team team = await GetTeamModelAsync(teamId);
+            Player player = new Player { Name = playerVM.Name, Surname = playerVM.Surname, Nationality = playerVM.Nationality, Overall = playerVM.Overall };
 
             if (team.Players.Contains(player))
             {
                 throw new Exception($"Player {player.Name} already exists in team {team.Name}");
+            }
+
+            if(team.Players.Count > 11)
+            {
+                throw new Exception("Cannot have more than 11 players in the team");
             }
 
             team.Players.Add(player);
@@ -75,13 +80,14 @@ namespace WebTest.Services
             {
                 Id = x.Id,
                 Name = x.Name,
-                Players = x.Players.Select(x => new PlayerVM
+                Players = x.Players.Select(y => new PlayerVM
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Nationality = x.Nationality,
-                    Overall = x.Overall,
-                    Surname = x.Surname
+                    Id = y.Id,
+                    Name = y.Name,
+                    Nationality = y.Nationality,
+                    Overall = y.Overall,
+                    Surname = y.Surname,
+                    Team = x.Name
                 }).ToList()
             });
 
@@ -100,7 +106,8 @@ namespace WebTest.Services
                     Name = x.Name,
                     Nationality = x.Nationality,
                     Overall = x.Overall,
-                    Surname = x.Surname
+                    Surname = x.Surname,
+                    Team = t.Name
                 }).ToList()
             }).FirstOrDefaultAsync(x => x.Id == teamId);
 

@@ -1,4 +1,6 @@
-﻿using WebTest.Models.Teams;
+﻿using WebTest.Models.Players;
+using WebTest.Models.Teams;
+using WebTest.ViewModels.Players;
 using WebTest.ViewModels.Teams;
 
 namespace WebTest.Contracts
@@ -6,7 +8,7 @@ namespace WebTest.Contracts
     public interface ITeamService
     {
         Task<TeamVM> AddTeamAsync(AddTeamVM addTeamVM);
-        Task<TeamVM> AddPlayerToTeamAsync(int playerId, int teamId);
+        Task<TeamVM> AddPlayerToTeamAsync(int teamId, PlayerVM playerVM);
         Task<TeamVM> RemovePlayerFromTeamAsync(int playerId, int teamId);
         Task<IEnumerable<TeamVM>> GetTeamsAsync();
         Task<TeamVM> GetTeamVMAsync(int teamId);
