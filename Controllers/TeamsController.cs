@@ -61,12 +61,12 @@ namespace WebTest.Controllers
             }
         }
 
-        [HttpPatch("addPlayer/{teamId}")]
-        public async Task<ActionResult<TeamVM>> AddPlayerToTeamAsync(int teamId, PlayerVM playerVM)
+        [HttpPatch("{id}/addPlayer/{playerId}")]
+        public async Task<ActionResult<TeamVM>> AddPlayerToTeamAsync(int id, int playerId)
         {
             try
             {
-                return await _teamService.AddPlayerToTeamAsync(teamId, playerVM);
+                return await _teamService.AddPlayerToTeamAsync(id, playerId);
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace WebTest.Controllers
             }
         }
 
-        [HttpPatch("removePlayer/{playerId}/{teamId}")]
+        [HttpPatch("{teamId}/removePlayer/{playerId}")]
         public async Task<ActionResult<TeamVM>> RemovePlayerFromTeamAsync(int playerId, int teamId)
         {
             try

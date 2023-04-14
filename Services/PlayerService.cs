@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using WebTest.Context;
 using WebTest.Contracts;
 using WebTest.Models.Players;
@@ -50,9 +51,17 @@ namespace WebTest.Services
             return await GetPlayerVMAsync(player.Id);
         }
 
-        public async Task<IEnumerable<PlayerVM>> GetPlayersAsync()
+        public async Task<IEnumerable<PlayerVM>> GetPlayersAsync(PlayerQueryParams playerQueryParams)
         {
-            IEnumerable<PlayerVM> players = await _appContext.Players.Select(p => new PlayerVM
+            IEnumerable<PlayerVM> players = Enumerable.Empty<PlayerVM>();
+
+            Expression<Func<Player, bool>> expression = (x) => x.Surname != null;
+            if (!playerQueryParams.All)
+            {
+                expression = (x) => x.Team == null;
+            }
+           
+            players = await _appContext.Players.Where(expression).Select(p => new PlayerVM
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -61,6 +70,7 @@ namespace WebTest.Services
                 Overall = p.Overall,
                 Team = p.Team.Name ?? "Free contract"
             }).ToListAsync();
+
 
             return players;
         }

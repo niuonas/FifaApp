@@ -46,11 +46,11 @@ namespace WebTest.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PlayerVM>>> GetAsync()
+        public async Task<ActionResult<List<PlayerVM>>> GetAsync([FromQuery]PlayerQueryParams playerQueryParams)
         {
             try
             {
-                IEnumerable<PlayerVM> players = await _playerService.GetPlayersAsync();
+                IEnumerable<PlayerVM> players = await _playerService.GetPlayersAsync(playerQueryParams);
                 return players.ToList();
             }
             catch (Exception ex)

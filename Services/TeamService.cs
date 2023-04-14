@@ -36,10 +36,10 @@ namespace WebTest.Services
             };
         }
 
-        public async Task<TeamVM> AddPlayerToTeamAsync(int teamId, PlayerVM playerVM)
+        public async Task<TeamVM> AddPlayerToTeamAsync(int teamId, int playerId)
         {
             Team team = await GetTeamModelAsync(teamId);
-            Player player = new Player { Name = playerVM.Name, Surname = playerVM.Surname, Nationality = playerVM.Nationality, Overall = playerVM.Overall };
+            Player player = await _fifaAppContext.Players.Where(x => x.Id == playerId).FirstOrDefaultAsync();
 
             if (team.Players.Contains(player))
             {
