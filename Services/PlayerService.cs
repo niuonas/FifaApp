@@ -55,7 +55,7 @@ namespace WebTest.Services
         {
             IEnumerable<PlayerVM> players = Enumerable.Empty<PlayerVM>();
 
-            Expression<Func<Player, bool>> expression = (x) => x.Surname != null;
+            Expression<Func<Player, bool>> expression = (x) => true;
             if (!playerQueryParams.All)
             {
                 expression = (x) => x.Team == null;
